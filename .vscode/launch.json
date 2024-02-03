@@ -7,7 +7,7 @@
     {
       "name": "back-shelf",
       "request": "launch",
-      "type": "dart"
+      "type": "dart",
     }
   ]
 }

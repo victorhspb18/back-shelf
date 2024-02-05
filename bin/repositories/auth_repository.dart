@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:shelf/shelf.dart';
 
-import '../entities/user.dart';
 import 'users_repository.dart';
 
 class AuthRepository {
@@ -24,22 +23,20 @@ class AuthRepository {
         );
       }
 
-      final String? user = bodyReq['user'];
-      final String? pass = bodyReq['password'];
+      final String? accessToken = bodyReq['accessToken'];
 
-      if (user == null || pass == null) {
+      if (accessToken == null) {
         return Response(
           422,
           body: 'Parametros inválidos',
         );
       }
 
-      if (user == 'victor' && pass == '123') {
+      if (accessToken != '123') {
         final userResult = await usersRepository.getUserDataById('123');
         final body = await userResult.readAsString();
-        final userLogged = User(name: json.decode(body)['fullName']);
 
-        return Response.ok(json.encode(userLogged.toMap()));
+        return Response.ok(json.encode(json.decode(body)));
       }
       return Response(404, body: 'E-mail ou senha inválidos');
     } catch (e, s) {
@@ -47,7 +44,7 @@ class AuthRepository {
       print(s);
       return Response(
         422,
-        body: 'Parametros inválidos',
+        body: 'Erro interno',
       );
     }
   }

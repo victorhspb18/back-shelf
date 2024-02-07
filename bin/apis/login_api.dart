@@ -1,14 +1,18 @@
 import 'package:shelf/shelf.dart';
 import 'package:shelf_router/shelf_router.dart';
 
-import '../repositories/auth_repository.dart';
+import '../controllers/auth_controller.dart';
+import '../infra/injection.dart';
 
 class LoginApi {
-  final AuthRepository authRepository = AuthRepository();
+  LoginApi() {
+    router = getIt();
+  }
+  late Router router;
+
+  final AuthController authRepository = AuthController();
 
   Handler get handler {
-    final router = Router();
-
     router.post('/login', (Request req) {
       return authRepository.login(req);
     });

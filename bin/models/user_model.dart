@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class UserModel {
   UserModel({
     required this.accessToken,
@@ -23,6 +25,10 @@ class UserModel {
       "eid": eid,
       "email": email,
     };
+  }
+
+  String toJson() {
+    return jsonEncode(toMap());
   }
 
   final String accessToken;

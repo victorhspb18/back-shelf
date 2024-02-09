@@ -1,6 +1,5 @@
 import 'package:shelf/shelf.dart';
 
-import '../lib/user_lib.dart';
 import '../services/user_service.dart';
 
 class UsersController {

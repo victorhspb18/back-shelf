@@ -3,20 +3,22 @@ import 'package:shelf_router/shelf_router.dart';
 
 import '../controllers/auth_controller.dart';
 import '../infra/injection.dart';
+import 'custom_api.dart';
 
-class LoginApi {
+class LoginApi extends CustomApi {
   LoginApi() {
     router = getIt();
   }
   late Router router;
 
-  final AuthController authRepository = AuthController();
+  final AuthController controller = AuthController();
 
-  Handler get handler {
+  @override
+  Handler getHandler({List<Middleware>? middlewares}) {
     router.post('/login', (Request req) {
-      return authRepository.login(req);
+      return controller.login(req);
     });
 
-    return router;
+    return createHandler(router: router);
   }
 }

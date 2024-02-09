@@ -3,8 +3,9 @@ import 'package:shelf_router/shelf_router.dart';
 
 import '../controllers/users_controller.dart';
 import '../infra/injection.dart';
+import 'custom_api.dart';
 
-class UserApi {
+class UserApi extends CustomApi {
   UserApi() {
     router = getIt();
   }
@@ -13,11 +14,12 @@ class UserApi {
 
   final UsersController controller = UsersController();
 
-  Handler get handler {
+  @override
+  Handler getHandler({List<Middleware>? middlewares}) {
     router.get('/users/<id>', (Request req, String? id) {
       return controller.getUser(id);
     });
 
-    return router;
+    return createHandler(router: router, middlewares: middlewares);
   }
 }

@@ -12,12 +12,10 @@ Future<void> initializePipeline() async {
   final CustomServer customServer = CustomServer();
   final SecurityService securityService = getIt();
 
-  final cascadeHandler = Cascade().add(LoginApi().getHandler()).add(
-        UserApi().getHandler(middlewares: [
-          securityService.authorization,
-          securityService.verifyJWT
-        ]),
-      );
+  final cascadeHandler =
+      Cascade().add(LoginApi().getHandler()).add(UserApi().getHandler(
+            isSecurity: true,
+          ));
 
   var handler = const Pipeline()
       .addMiddleware(logRequests())

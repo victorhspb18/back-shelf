@@ -15,11 +15,18 @@ class UserApi extends CustomApi {
   final UsersController controller = UsersController();
 
   @override
-  Handler getHandler({List<Middleware>? middlewares}) {
+  Handler getHandler({
+    List<Middleware>? middlewares,
+    bool isSecurity = false,
+  }) {
     router.get('/users/<id>', (Request req, String? id) {
       return controller.getUser(id);
     });
 
-    return createHandler(router: router, middlewares: middlewares);
+    return createHandler(
+      router: router,
+      middlewares: middlewares,
+      isSecurity: isSecurity,
+    );
   }
 }

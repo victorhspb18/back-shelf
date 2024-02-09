@@ -14,11 +14,18 @@ class LoginApi extends CustomApi {
   final AuthController controller = AuthController();
 
   @override
-  Handler getHandler({List<Middleware>? middlewares}) {
+  Handler getHandler({
+    List<Middleware>? middlewares,
+    bool isSecurity = false,
+  }) {
     router.post('/login', (Request req) {
       return controller.login(req);
     });
 
-    return createHandler(router: router);
+    return createHandler(
+      router: router,
+      middlewares: middlewares,
+      isSecurity: isSecurity,
+    );
   }
 }

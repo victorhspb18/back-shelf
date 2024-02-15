@@ -13,8 +13,7 @@ dependencies:
   shelf_cors_headers: ^0.1.5
   collection: 1.18.0
   get_it: ^7.6.7
-  dart_jsonwebtoken: ^2.12.2
-
+  dart_jsonwebtoken: ^2.13.0
 
   # path: ^1.8.0
 

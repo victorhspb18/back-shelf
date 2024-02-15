@@ -57,10 +57,12 @@ class SecurityServiceImpl implements SecurityService<JWT> {
   }
 
   @override
-  Middleware get verifyJWT => createMiddleware(requestHandler: (Request req) {
-        if (req.context['jwt'] == null) return Response.forbidden('Negado');
-        return null;
-      });
+  Middleware get verifyJWT => createMiddleware(
+        requestHandler: (Request req) {
+          if (req.context['jwt'] == null) return Response.forbidden('Negado');
+          return null;
+        },
+      );
 }
 
 enum JwtError { invalid, expired }

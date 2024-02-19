@@ -5,10 +5,11 @@ services:
     image: mysql:5.7
     container_name: mysql
     restart: always
+    user: mysql
     environment:
-      MYSQL_DATABASE: 'dart'   
+      MYSQL_DATABASE: 'back'
       MYSQL_USER: 'dart_user'
-      MYSQL_PASSWORD: 'dart_pass'      
+      MYSQL_PASSWORD: 'dart_pass'
       MYSQL_ROOT_PASSWORD: 'root'
     ports:
       - '3306:3306'

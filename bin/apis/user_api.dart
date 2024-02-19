@@ -23,6 +23,10 @@ class UserApi extends CustomApi {
       return controller.getUser(id);
     });
 
+    router.post('/users', (Request req) {
+      return controller.addUser(req);
+    });
+
     return createHandler(
       router: router,
       middlewares: middlewares,

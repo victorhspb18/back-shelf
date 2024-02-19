@@ -1,9 +1,10 @@
 import 'package:shelf/shelf.dart';
-
 import '../apis/login_api.dart';
 import '../apis/user_api.dart';
 import '../utils/custom_env.dart';
 import 'custom_serve.dart';
+import 'database/db_configuration.dart';
+import 'injection.dart';
 import 'middleware_interception.dart';
 
 Future<void> initializePipeline() async {
@@ -23,7 +24,7 @@ Future<void> initializePipeline() async {
 
   await customServer.initialize(
     handler: handler,
-    address: await CustomEnv.get<String>(key: 'server_adress'),
+    address: await CustomEnv.get<String>(key: 'server_address'),
     port: await CustomEnv.get<int>(key: 'port'),
   );
 }

@@ -2,19 +2,21 @@ import 'dart:convert';
 
 class UserModel {
   UserModel({
-    required this.accessToken,
     required this.fullName,
-    required this.eid,
+    required this.id,
     required this.email,
+    required this.createdAt,
+    required this.updateAt,
   });
 
   static UserModel? fromMap(Map<String, dynamic>? data) {
     if (data == null) return null;
     return UserModel(
-      accessToken: data['accessToken'],
       fullName: data['fullName'],
-      eid: data['eid'],
+      id: data['id'],
       email: data['email'],
+      createdAt: DateTime.tryParse(data['createAt']),
+      updateAt: DateTime.tryParse(data['updateAt']),
     );
   }
 
@@ -22,8 +24,10 @@ class UserModel {
     return {
       "accessToken": accessToken,
       "fullName": fullName,
-      "eid": eid,
+      "id": id,
       "email": email,
+      "createdAt": createdAt?.toIso8601String(),
+      "updateAt": updateAt?.toIso8601String(),
     };
   }
 
@@ -31,8 +35,10 @@ class UserModel {
     return jsonEncode(toMap());
   }
 
-  final String accessToken;
+  String accessToken = '';
   final String fullName;
-  final String eid;
+  final String id;
   final String email;
+  final DateTime? createdAt;
+  final DateTime? updateAt;
 }

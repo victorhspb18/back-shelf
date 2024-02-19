@@ -1,7 +1,8 @@
-class AuthLib {
-  Future<AuthResult> validateLogin(String accessToken) async {
-    return AuthResult.success;
-  }
-}
+import '../infra/database/db_configuration.dart';
 
-enum AuthResult { success, noUser, passInvalid }
+abstract class AuthLib {}
+
+class AuthLibImpl implements AuthLib {
+  AuthLibImpl({required this.dbConfiguration});
+  final DbConfiguration dbConfiguration;
+}

@@ -30,7 +30,8 @@ class CustomEnv {
   }
 
   static Future<String> _readFile() async {
-    return await File(_file).readAsString();
+    final file = File(_file);
+    return await file.readAsString();
   }
 
   static bool get isProd => _file == '.env';

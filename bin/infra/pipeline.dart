@@ -3,8 +3,6 @@ import '../apis/login_api.dart';
 import '../apis/user_api.dart';
 import '../utils/custom_env.dart';
 import 'custom_serve.dart';
-import 'database/db_configuration.dart';
-import 'injection.dart';
 import 'middleware_interception.dart';
 
 Future<void> initializePipeline() async {
@@ -17,7 +15,8 @@ Future<void> initializePipeline() async {
 
   var handler = const Pipeline()
       .addMiddleware(logRequests())
-      .addMiddleware(MiddlewareInterception.middleWare)
+      .addMiddleware(MInterception.contentTypeJson)
+      .addMiddleware(MInterception.cors)
       .addHandler(
         cascadeHandler.handler,
       );

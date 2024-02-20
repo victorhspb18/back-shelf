@@ -1,0 +1,4 @@
+enum SaveUserFailedResult {
+  alreadyExists,
+  internalError,
+}

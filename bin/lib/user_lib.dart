@@ -9,92 +9,89 @@ class UserLib implements Dao<UserModel> {
   final DbConfiguration _dbConfiguration;
 
   @override
-  Future<UserModel?> create(UserModel user) async {
-    try {
-      final sql = "INSERT INTO users (id, name, email) "
-          "VALUES ('${user.id}', '${user.fullName}', '${user.email}')";
+  Future<bool> create(UserModel user) async {
+    final sql = "INSERT INTO users (id, fullName, email, password) "
+        "VALUES (?, ?, ?, ?)";
 
-      final connection = await _dbConfiguration.connection;
-      connection as MySqlConnection;
-      print(connection);
+    final connection = await _dbConfiguration.connection;
+    connection as MySqlConnection;
+    print(connection);
 
-      await connection.query(sql);
+    await connection.query(sql, [
+      user.id,
+      user.fullName,
+      user.email,
+      user.password,
+    ]);
 
-      return user;
-    } catch (e, s) {
-      print(e);
-      print(s);
-      return null;
-    }
+    return true;
   }
 
   @override
   Future<bool> delete(String id) async {
-    try {
-      final sql = "DELETE FROM users WHERE id = '$id'";
+    final sql = "DELETE FROM users WHERE id = '$id'";
 
-      final connection = await _dbConfiguration.connection;
+    final connection = await _dbConfiguration.connection;
 
-      await connection.query(sql);
+    await connection.query(sql);
 
-      return true;
-    } catch (e) {
-      return false;
-    }
+    return true;
   }
 
   @override
   Future<List<UserModel>> findAll() async {
-    try {
-      final String sql = "SELECT * FROM users";
-      final connection = await _dbConfiguration.connection;
-      final result = await connection.query(sql);
+    final String sql = "SELECT * FROM users";
+    final connection = await _dbConfiguration.connection;
+    final result = await connection.query(sql);
 
-      final usersResult = (result as List).map((e) {
-        return UserModel.fromMap(e);
-      }).toList();
+    final usersResult = (result as List).map((e) {
+      return UserModel.fromMap(e);
+    }).toList();
 
-      final List<UserModel> usersFiltered = [];
-      for (final u in usersResult) {
-        if (u != null) usersFiltered.add(u);
-      }
-
-      return usersFiltered;
-    } catch (e) {
-      throw Exception('Erro ao listar usuários');
+    final List<UserModel> usersFiltered = [];
+    for (final u in usersResult) {
+      if (u != null) usersFiltered.add(u);
     }
+
+    return usersFiltered;
   }
 
   @override
   Future<UserModel?> findOne(String id) async {
-    try {
-      final String sql = "SELECT * FROM users where id = '$id'";
-      final connection = await _dbConfiguration.connection;
-      final result = await connection.query(sql);
+    final String sql = "SELECT * FROM users where id = '$id'";
+    final connection = await _dbConfiguration.connection;
+    final result = await connection.query(sql);
 
-      UserModel? user;
+    UserModel? user;
 
-      for (final u in result) {
-        user = UserModel.fromMap(u);
-      }
-
-      return user;
-    } catch (e) {
-      return null;
+    for (final u in result) {
+      user = UserModel.fromMap(u.fields);
     }
+
+    return user;
+  }
+
+  Future<UserModel?> findOneByEmail(String email) async {
+    final String sql = "SELECT * FROM users where email = '$email'";
+    final connection = await _dbConfiguration.connection;
+    final result = await connection.query(sql);
+
+    UserModel? user;
+
+    for (final u in result) {
+      user = UserModel.fromMap(u.fields);
+    }
+
+    return user;
   }
 
   @override
-  Future<UserModel?> update(UserModel user) async {
-    try {
-      final String sql = "UPDATE users set fullName = '${user.fullName}', "
-          "email = '${user.email}'";
-      final connection = await _dbConfiguration.connection;
-      await connection.query(sql);
+  Future<bool> update(UserModel user) async {
+    final String sql = "UPDATE users set fullName = '${user.fullName}', "
+        "email = '${user.email}'";
+    final connection = await _dbConfiguration.connection;
+    await connection.query(sql);
 
-      return user;
-    } catch (e) {
-      throw Exception('Erro ao atualizar usuários');
-    }
+    return true;
   }
 }
